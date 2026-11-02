@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>我的猛健樂減重日記</title>
+<style>
+:root{--pink:#D81B70;--rose:#f5a6c8;--pale:#fff0f6;--cream:#fffaf7;--ink:#563747;--muted:#987b89;--line:#f1dce6;--green:#35a879;--yellow:#d49b27;--red:#d95b68}
+*{box-sizing:border-box}body{margin:0;background:linear-gradient(135deg,#fff7fa,#fffaf4);font-family:system-ui,-apple-system,"Noto Sans TC",sans-serif;color:var(--ink)}
+main{max-width:1050px;margin:auto;padding:28px 18px 50px}.hero{background:linear-gradient(120deg,#f9d9e8,#fff0f5 55%,#fff7ed);border:1px solid #f4d5e3;border-radius:26px;padding:28px 30px;margin-bottom:18px;position:relative;overflow:hidden}.hero:after{content:"♡";position:absolute;right:30px;top:-26px;font-size:150px;color:#fff8;transform:rotate(12deg)}
+.eyebrow{letter-spacing:2px;color:var(--pink);font-size:12px;font-weight:800}.hero h1{font-size:clamp(25px,4vw,36px);margin:8px 0;color:#8c2856}.hero p{margin:0;color:#8f6478}.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:16px 0}.card{background:#fff;border:1px solid var(--line);border-radius:20px;padding:18px;box-shadow:0 6px 22px #9d52700b}.metric small,.muted{color:var(--muted)}.metric strong{display:block;font-size:27px;color:var(--pink);margin-top:5px}.metric span{font-size:12px;color:var(--muted)}
+.section-title{font-size:18px;margin:0 0 13px;color:#8c2856}.layout{display:grid;grid-template-columns:1fr 1.2fr;gap:14px}.field-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.field{display:flex;flex-direction:column;gap:6px}.field label{font-size:12px;color:var(--muted);font-weight:700}input,select{width:100%;padding:11px 12px;border:1px solid var(--line);border-radius:12px;background:#fffafd;color:var(--ink);font:inherit}input:focus,select:focus{outline:2px solid #f4b5d0;border-color:var(--pink)}button{border:0;border-radius:13px;padding:11px 16px;background:var(--pink);color:white;font-weight:750;cursor:pointer;margin-top:12px}button.secondary{background:#fce6ef;color:#a32a61}button.danger{background:#fff0f0;color:#bd4b58;padding:7px 10px;margin:0}.hint{font-size:12px;line-height:1.6;color:var(--muted);margin:10px 0 0}.chart-wrap{width:100%;overflow:hidden}.chart-wrap svg{width:100%;height:auto;display:block}.gauge{display:flex;gap:15px;align-items:center}.thermo{width:42px;height:150px;border:4px solid #f2d9e4;border-radius:25px;position:relative;margin:8px 12px 8px 5px;background:#fff7fa;flex:none}.thermo:after{content:"";position:absolute;width:60px;height:60px;border:4px solid #f2d9e4;border-radius:50%;background:#fff7fa;left:50%;transform:translateX(-50%);bottom:-27px;z-index:0}.fill{position:absolute;bottom:5px;left:5px;right:5px;height:20%;border-radius:20px;background:var(--yellow);z-index:1;transition:.3s}.gauge-copy strong{font-size:22px}.status{font-weight:800}.legend{display:flex;gap:12px;flex-wrap:wrap;font-size:12px;margin-top:10px}.dot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:4px}.table-wrap{overflow-x:auto}table{width:100%;border-collapse:collapse;font-size:13px}th,td{text-align:left;padding:11px 8px;border-bottom:1px solid #f5e8ee;white-space:nowrap}th{color:var(--muted);font-weight:700}.empty{text-align:center;color:var(--muted);padding:22px}.notice{background:#fff7e9;border:1px solid #f4e3bc;border-radius:14px;padding:12px 14px;font-size:12px;line-height:1.7;color:#80652e;margin-top:14px}.footer{text-align:center;color:#b18b9c;font-size:11px;margin-top:22px}
+@media(max-width:720px){.grid{grid-template-columns:1fr 1fr}.layout{grid-template-columns:1fr}.hero{padding:22px}.hero:after{right:5px}.metric:last-child{grid-column:span 2}}@media(max-width:430px){.field-grid{grid-template-columns:1fr}.grid{gap:9px}.card{padding:14px}.metric strong{font-size:23px}}
+</style>
+<meta name="theme-color" content="#D81B70">
+<meta name="description" content="專屬的猛健樂體重、劑量與每週減重趨勢追蹤日記">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+</head>
+<body><main>
+<header class="hero"><div class="eyebrow">MY WELLNESS JOURNEY · 每一步都值得被記錄</div><h1>我的猛健樂減重日記 ♡</h1><p>慢慢來也沒關係，持續照顧自己，就是進步。</p></header>
+<section class="grid">
+<div class="card metric"><small>目前體重</small><strong id="current">—</strong><span id="currentDate">尚未建立紀錄</span></div>
+<div class="card metric"><small>累計減重</small><strong id="loss">—</strong><span id="lossPct">從第一筆紀錄開始計算</span></div>
+<div class="card metric"><small>最近一次劑量</small><strong id="dose">—</strong><span>每週實際施打劑量</span></div>
+</section>
+<div class="layout">
+<section class="card"><h2 class="section-title">✿ 新增每週紀錄</h2>
+<div class="field-grid">
+<div class="field"><label for="date">測量日期</label><input id="date" type="date"></div>
+<div class="field"><label for="weight">體重（kg）</label><input id="weight" type="number" min="1" max="500" step="0.1" placeholder="例如 68.5"></div>
+<div class="field"><label for="doseInput">本週施打劑量（mg）</label><select id="doseInput"><option value="2.5">2.5 mg</option><option value="5" selected>5 mg</option><option value="7.5">7.5 mg</option><option value="10">10 mg</option><option value="12.5">12.5 mg</option><option value="15">15 mg</option><option value="0">未施打 / 暫停</option></select></div>
+<div class="field"><label for="note">備註（選填）</label><input id="note" maxlength="80" placeholder="例如：食慾、身體感受"></div>
+</div><button id="save">♡ 儲存這週紀錄</button><button class="secondary" id="cancel" style="display:none">取消編輯</button><div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px"><button class="secondary" id="exportBtn" style="margin-top:0">下載備份檔</button><button class="secondary" id="importBtn" style="margin-top:0">匯入備份</button><input id="importFile" type="file" accept=".json,application/json" hidden></div><p class="hint" id="storageStatus">正在檢查本機儲存狀態…</p>
+<p class="hint">建議固定在每週相近的時間、相近的測量條件下量體重，趨勢會更有參考價值。</p>
+</section>
+<section class="card"><h2 class="section-title">♡ 減重進度溫度計</h2><div class="gauge"><div class="thermo"><div class="fill" id="fill"></div></div><div class="gauge-copy"><div class="muted">最近 4 週體重變化</div><strong id="gaugePct">—</strong><div class="status" id="status">等待累積紀錄</div><p class="hint" id="gaugeText">至少累積 2 筆、間隔約 4 週的紀錄後，才能顯示趨勢。</p></div></div>
+<div class="legend"><span><i class="dot" style="background:var(--green)"></i>參考進展</span><span><i class="dot" style="background:var(--yellow)"></i>較慢進展</span><span><i class="dot" style="background:var(--red)"></i>持平或增加</span></div>
+<p class="hint">這是個人化追蹤用的提示燈號，不是藥物療效判定或醫療標準。</p></section>
+</div>
+<section class="card" style="margin-top:14px"><h2 class="section-title">✿ 每週體重變化曲線</h2><div class="chart-wrap" id="chart"><div class="empty">新增至少 2 筆體重紀錄，就會出現妳的專屬曲線 ♡</div></div></section>
+<section class="card" style="margin-top:14px"><h2 class="section-title">♡ 我的每週紀錄</h2><div class="table-wrap"><table><thead><tr><th>日期</th><th>體重</th><th>劑量</th><th>較前次</th><th>備註</th><th>操作</th></tr></thead><tbody id="rows"><tr><td colspan="6" class="empty">還沒有紀錄</td></tr></tbody></table></div></section>
+<div class="notice"><b>重要提醒｜健康與用藥安全</b><br>本頁的綠／黃／紅燈僅為方便觀察趨勢的自訂參考：最近約 4 週下降 ≥2% 為綠燈、下降 0.5% 至未滿 2% 為黃燈、下降未滿 0.5% 或體重增加為紅燈。它不是猛健樂官方療效門檻，也不能單憑體重判斷是否有效。體重會受水分、月經週期、飲食等影響；若體重快速下降、持續不適或有疑慮，請與開藥醫師討論。請勿自行調整劑量或施打頻率。</div>
+<div class="footer">Made with ♡ for your steady, healthy progress · 資料保存在此瀏覽器；請定期下載備份</div>
+</main>
+<script>
+const KEY='my_mounjaro_diary_v1';let records=[];let editing=null;
+try{records=JSON.parse(localStorage.getItem(KEY)||'[]');if(!Array.isArray(records))records=[]}catch(e){records=[]}
+const $=id=>document.getElementById(id);
+const fmt=n=>Number(n).toFixed(1);
+function saveData(){
+ try{
+  localStorage.setItem(KEY,JSON.stringify(records));
+  $('storageStatus').textContent='✓ 已儲存在這個瀏覽器。建議定期下載備份檔。';
+  $('storageStatus').style.color='var(--green)';
+ }catch(e){
+  $('storageStatus').textContent='⚠️ 瀏覽器無法穩定保存此檔案的資料，請立即下載備份檔。';
+  $('storageStatus').style.color='var(--red)';
+ }
+}
+function sorted(){return [...records].sort((a,b)=>a.date.localeCompare(b.date))}
+function pct(a,b){return (a-b)/a*100}
+function render(){
+ const data=sorted(),first=data[0],last=data[data.length-1];
+ $('current').textContent=last?fmt(last.weight)+' kg':'—';$('currentDate').textContent=last?last.date:'尚未建立紀錄';
+ $('loss').textContent=first&&last?(first.weight-last.weight>=0?'-':'＋')+fmt(Math.abs(first.weight-last.weight))+' kg':'—';
+ $('lossPct').textContent=first&&last?'累計 '+(pct(first.weight,last.weight)>=0?fmt(pct(first.weight,last.weight))+'%':'增加 '+fmt(Math.abs(pct(first.weight,last.weight)))+'%'):'從第一筆紀錄開始計算';
+ $('dose').textContent=last?last.dose+' mg':'—';
+ const cutoff=last?new Date(last.date+'T12:00:00').getTime()-28*86400000:0;
+ const recent=data.filter(r=>new Date(r.date+'T12:00:00').getTime()<=new Date(last?.date+'T12:00:00').getTime() && new Date(r.date+'T12:00:00').getTime()>=cutoff);
+ let base=recent[0]; if(recent.length<2 && data.length>=2)base=data[Math.max(0,data.length-2)];
+ let change=base&&last?pct(base.weight,last.weight):null;
+ if(change===null){$('gaugePct').textContent='—';$('status').textContent='等待累積紀錄';$('gaugeText').textContent='至少需要 2 筆紀錄，且最好間隔約 4 週。';$('fill').style.height='12%';$('fill').style.background='var(--yellow)'}
+ else{
+ const drop=change;
+ $('gaugePct').textContent=(drop>=0?'↓ ':'↑ ')+fmt(Math.abs(drop))+'%';
+ let color,word,txt;
+ if(drop>=2){color='var(--green)';word='綠燈｜有進展';txt='近 4 週體重下降達 2% 以上。持續觀察整體趨勢與身體狀況。'}
+ else if(drop>=0.5){color='var(--yellow)';word='黃燈｜緩步前進';txt='近 4 週有下降，但幅度較小；可再觀察後續趨勢。'}
+ else{color='var(--red)';word='紅燈｜持平或增加';txt='近 4 週下降幅度未達 0.5% 或體重增加。單次結果不代表治療無效，建議與醫師討論。'}
+ $('status').textContent=word;$('status').style.color=color;$('gaugeText').textContent=txt;$('fill').style.background=color;$('fill').style.height=Math.max(8,Math.min(100,Math.abs(drop)*18))+'%';
+ }
+ $('rows').innerHTML=data.length?data.map((r,i)=>{let prev=i?data[i-1]:null;let delta=prev?r.weight-prev.weight:null;return `<tr><td>${r.date}</td><td>${fmt(r.weight)} kg</td><td>${r.dose} mg</td><td>${delta===null?'—':(delta>0?'+':'')+fmt(delta)+' kg'}</td><td>${escapeHtml(r.note||'—')}</td><td><button class="secondary" onclick="editRecord('${r.id}')">編輯</button> <button class="danger" onclick="deleteRecord('${r.id}')">刪除</button></td></tr>`}).join(''):'<tr><td colspan="6" class="empty">還沒有紀錄</td></tr>';
+ drawChart(data);
+}
+function escapeHtml(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function drawChart(data){
+ if(data.length<2){$('chart').innerHTML='<div class="empty">新增至少 2 筆體重紀錄，就會出現妳的專屬曲線 ♡</div>';return}
+ const W=760,H=280,L=58,R=22,T=22,B=45,vals=data.map(x=>x.weight),min=Math.min(...vals)-1,max=Math.max(...vals)+1;
+ const x=i=>L+i*(W-L-R)/(data.length-1),y=v=>T+(max-v)*(H-T-B)/(max-min);
+ let grid='';for(let k=0;k<5;k++){let v=min+(max-min)*k/4,yy=y(v);grid+=`<line x1="${L}" x2="${W-R}" y1="${yy}" y2="${yy}" stroke="#f4e5ec"/><text x="${L-10}" y="${yy+4}" text-anchor="end" fill="#a88b99" font-size="11">${v.toFixed(1)}</text>`}
+ let pts=data.map((d,i)=>`${x(i)},${y(d.weight)}`).join(' ');
+ let dots=data.map((d,i)=>`<circle cx="${x(i)}" cy="${y(d.weight)}" r="5" fill="#D81B70" stroke="white" stroke-width="2"><title>${d.date}：${d.weight} kg</title></circle><text x="${x(i)}" y="${y(d.weight)-12}" text-anchor="middle" font-size="11" fill="#9a3767">${d.weight}</text><text x="${x(i)}" y="${H-15}" text-anchor="middle" font-size="10" fill="#a88b99">${d.date.slice(5)}</text>`).join('');
+ $('chart').innerHTML=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="每週體重變化折線圖">${grid}<polyline points="${pts}" fill="none" stroke="#D81B70" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>${dots}</svg>`;
+}
+$('save').onclick=()=>{let date=$('date').value,weight=Number($('weight').value),dose=$('doseInput').value;if(!date||!weight||weight<=0){alert('請填寫有效的日期與體重喔！');return}
+ let item={id:editing||String(Date.now()),date,weight,dose,note:$('note').value.trim()};records=records.filter(r=>r.id!==item.id);records.push(item);saveData();resetForm();render()};
+function resetForm(){editing=null;$('date').value=new Date().toISOString().slice(0,10);$('weight').value='';$('doseInput').value='5';$('note').value='';$('save').textContent='♡ 儲存這週紀錄';$('cancel').style.display='none'}
+window.editRecord=id=>{let r=records.find(x=>x.id===id);if(!r)return;editing=id;$('date').value=r.date;$('weight').value=r.weight;$('doseInput').value=r.dose;$('note').value=r.note;$('save').textContent='更新紀錄';$('cancel').style.display='inline-block';window.scrollTo({top:0,behavior:'smooth'})};
+window.deleteRecord=id=>{if(confirm('確定要刪除這筆紀錄嗎？')){records=records.filter(r=>r.id!==id);saveData();render()}};
+$('cancel').onclick=resetForm;
+$('date').value=new Date().toISOString().slice(0,10);
+$('exportBtn').onclick=()=>{
+ const payload={app:'my_mounjaro_diary',version:1,exportedAt:new Date().toISOString(),records:sorted()};
+ const blob=new Blob([JSON.stringify(payload,null,2)],{type:'application/json'});
+ const url=URL.createObjectURL(blob);const a=document.createElement('a');
+ a.href=url;a.download='猛健樂減重紀錄備份_'+new Date().toISOString().slice(0,10)+'.json';
+ document.body.appendChild(a);a.click();a.remove();URL.revokeObjectURL(url);
+};
+$('importBtn').onclick=()=>$('importFile').click();
+$('importFile').onchange=async e=>{
+ const file=e.target.files[0];if(!file)return;
+ try{
+  const parsed=JSON.parse(await file.text());
+  const incoming=Array.isArray(parsed)?parsed:parsed.records;
+  if(!Array.isArray(incoming)||incoming.some(r=>!r.date||!Number.isFinite(Number(r.weight))||!r.dose)){
+   throw new Error('格式不正確');
+  }
+  if(!confirm('匯入備份會取代目前這個瀏覽器中的紀錄。建議先下載目前備份。確定繼續嗎？')){e.target.value='';return;}
+  records=incoming.map(r=>({id:String(r.id||Date.now()+Math.random()),date:String(r.date),weight:Number(r.weight),dose:String(r.dose),note:String(r.note||'')}));
+  saveData();render();alert('備份還原成功！'); 
+ }catch(err){alert('無法讀取這份備份，請確認選取的是本工具匯出的 JSON 檔。');}
+ e.target.value='';
+};
+try{
+ const stored=localStorage.getItem(KEY);
+ $('storageStatus').textContent=stored?'✓ 已讀取這個瀏覽器先前保存的紀錄。':'目前尚無本機紀錄；第一次使用請先新增紀錄。';
+ $('storageStatus').style.color='var(--green)';
+}catch(e){
+ $('storageStatus').textContent='⚠️ 此瀏覽器可能限制本機保存。請每次更新後下載備份檔。';
+ $('storageStatus').style.color='var(--red)';
+}
+render();
+</script>
+<script>
+if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost')) {
+  window.addEventListener('load', () => navigator.serviceWorker.register('./sw.js').catch(()=>{}));
+}
+</script>
+</body></html>

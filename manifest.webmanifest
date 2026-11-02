@@ -1,0 +1,25 @@
+{
+  "name": "猛健樂減重日記",
+  "short_name": "減重日記",
+  "description": "每週體重、劑量與減重趨勢追蹤",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#fff7fa",
+  "theme_color": "#D81B70",
+  "icons": [
+    {
+      "src": "icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}
